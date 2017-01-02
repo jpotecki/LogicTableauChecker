@@ -1,28 +1,14 @@
-{-# LANGUAGE RecordWildCards #-}
-
-module Prover where
+module Prover ( valid, valid', satisfiable, satisfiable' ) where
 
 import Formula
 import Axioms
 import Control.Monad
 
-robinsInput :: [ (String, Bool) ]
-robinsInput = [ ("-(p>p)" , False)
-              , ("-(p>(q>p))" , False)
-              , ("-((p>q)>p)" , True)
-              , ("--((pvq)>(-p^-q))", True)
-              , ("(p^-p)", False)
-              , ("((p>q)^(q>p))", True)
-              , ("-((p>(qvr))>((p>q)v(p>r)))", False)
-              , ("((p>(qvr))>((p>q)v(p>r)))", True)
-              , ("((p>q)^(-q>-p))", True)
-              , ("((pvq)^p>-q)", False) -- not a Fmla
-              ]
-runRobinsTests :: [(Bool, Bool)]
-runRobinsTests = map (\(fmla, expected) -> (satisfiable' fmla, expected)) robinsInput
+valid :: Fmla -> Bool
+valid fmla = not $ satisfiable $ negFmla fmla
 
-passTests :: Bool
-passTests = foldl (&&) True $ [ x == y | (x, y) <- runRobinsTests ]
+valid' :: String -> Bool
+valid' str =  not $ satisfiable' $ '-':str
 
 satisfiable :: Fmla -> Bool
 satisfiable fmla = case (buildT >=> closedT) fmla of
@@ -125,32 +111,3 @@ closedT tab  | closedT' tab []   = Nothing
     closedT' (Node _ left Empty) props =     closedT' left  props
     closedT' (Node _ left right) props =    (closedT' left  props)
                                          && (closedT' right props)
-
--- QuickCheck in order to check if the prover is correct
-
-prop_NotSatisfiable1 :: Fmla -> Fmla -> Bool
-prop_NotSatisfiable1 f g = (satisfiable $ negFmla $ createAxiom1 f g) == False
-
-prop_Satisfiable1 :: Fmla -> Fmla -> Bool
-prop_Satisfiable1 f g = satisfiable $ createAxiom1 f g
-
-prop_NotSatisfiable2 :: Fmla -> Fmla -> Fmla -> Bool
-prop_NotSatisfiable2 f g h = (satisfiable $ negFmla $ createAxiom2 f g h) == False
-
-prop_Satisfiable2 :: Fmla -> Fmla -> Fmla -> Bool
-prop_Satisfiable2 f g h = satisfiable $ createAxiom2 f g h
-
-prop_NotSatisfiable3 :: Fmla -> Fmla -> Bool
-prop_NotSatisfiable3 f g = (satisfiable $ negFmla $ createAxiom3 f g) == False
-
-prop_Satisfiable3 :: Fmla -> Fmla -> Bool
-prop_Satisfiable3 f g = satisfiable $ createAxiom3 f g
-
-prop_Satisfiable4 ::Fmla -> Bool
-prop_Satisfiable4 f = satisfiable $ createAxiom4 f
-
-prop_NotSatisfiable4 :: Fmla ->  Bool
-prop_NotSatisfiable4 f = (satisfiable $ negFmla $ createAxiom4 f) == False
-
-prop_robinTests :: Bool
-prop_robinTests = passTests
