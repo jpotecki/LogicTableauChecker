@@ -80,7 +80,7 @@ fmlaGen 0 = propGen
 fmlaGen n = oneof $ fmlaGenerators (n - 1)
   where
     fmlaGenerators :: Int -> [Gen (Fmla)]
-    fmlaGenerators n = [ (negaGen n) , (conjGen n) , (disjGen n) , (implGen n) ]
+    fmlaGenerators n = [ propGen, (negaGen n) , (conjGen n) , (disjGen n) , (implGen n) ]
 
 propGen :: Gen (Fmla)
 propGen = elements $ map (\x -> Prop x) allProps
