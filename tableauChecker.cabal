@@ -8,7 +8,7 @@ license-file:        LICENSE
 author:              Janos Potecki
 maintainer:          janospotecki@outlook.com
 copyright:           2016 Author name here
-category:            Web
+category:            Propositional Logic
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10

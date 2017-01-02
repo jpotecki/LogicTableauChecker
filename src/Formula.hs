@@ -1,9 +1,9 @@
-module Formula ( Fmla(..), parseFmla, negFmla ) where
+module Formula ( Fmla(..), parseFmla, negFmla, allProps, allBins ) where
 
 type BinaryConnector = Char
 
 allProps :: [Char]
-allProps = "prq"
+allProps = ['a'..'z']
 
 allBins :: [Char]
 allBins = "^>v"
