@@ -1,12 +1,8 @@
 module Main (main) where
 
 import System.Environment as Sys
-import Control.Monad ((>=>))
-
-import Prover (satisfiable, valid)
-import FmlaParser (parseFmla')
-import Formula
-
+import Prover                       (satisfiable, valid)
+import FmlaParser                   (parseFmla')
 
 main :: IO ()
 main = getArgs >>= parse >>= putStrLn
