@@ -25,8 +25,7 @@ readExpr str = case P.parse parseExpr "" str of
     Right fmla -> "Found value " ++ show fmla
 
 parseProp :: P.Parser Fmla
-parseProp = do  c <- props
-                return $ Prop c
+parseProp = props >>= (return. Prop)
 
 parseBinConn :: P.Parser Fmla
 parseBinConn = do
@@ -41,10 +40,12 @@ parseBinConn = do
                 '>' -> Implication expr1 expr2
 
 parseNeg :: P.Parser Fmla
-parseNeg = do   P.char '-'
-                expr <- parseExpr
-                return $ Neg expr
+parseNeg = Neg <$ P.char '-' <*> parseExpr
 
+-- parens :: P.Parser Fmla
+-- parens = P.between (P.char '(') (P.char ')')
+
+fullExpr :: P.Parser Fmla
 fullExpr = parseExpr <* P.eof
 
 parseExpr :: P.Parser Fmla
