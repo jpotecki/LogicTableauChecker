@@ -2,7 +2,7 @@
 
 ## Usage
 1. Clone and build the stack project ```stack build```
-2. Run the programme with commandline args ```stack exec -- tableauChecker --valid "-(p^p)"
+2. Run the programme with commandline args ```stack exec -- tableauChecker --valid "-(p^p)"```
 
 ## Flags
 1. -h
