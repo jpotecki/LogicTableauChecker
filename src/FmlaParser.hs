@@ -3,6 +3,7 @@ module FmlaParser ( parseFmla, parseFmla' ) where
 import Formula
 import Control.Monad (liftM)
 import qualified Text.ParserCombinators.Parsec as P
+import qualified Text.Parsec.Token as P (parens)
 import Text.ParserCombinators.Parsec ((<|>))
 
 parseFmla :: String -> Maybe Fmla
