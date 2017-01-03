@@ -1,6 +1,7 @@
 module Prover ( valid, valid', satisfiable, satisfiable' ) where
 
 import Formula
+import FmlaParser
 import Axioms
 import Control.Monad
 
