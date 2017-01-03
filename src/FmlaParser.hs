@@ -6,12 +6,12 @@ import qualified Text.ParserCombinators.Parsec as P
 import Text.ParserCombinators.Parsec ((<|>))
 
 parseFmla :: String -> Maybe Fmla
-parseFmla str = case P.parse parseExpr "" str of
+parseFmla str = case P.parse fullExpr "" str of
     Left err -> Nothing
     Right fm -> Just fm
 
 parseFmla' :: String -> Either P.ParseError Fmla
-parseFmla' str = P.parse parseExpr "" str
+parseFmla' str = P.parse fullExpr "" str
 
 bins :: P.Parser Char
 bins = P.oneOf allBins
@@ -45,6 +45,7 @@ parseNeg = do   P.char '-'
                 expr <- parseExpr
                 return $ Neg expr
 
+fullExpr = parseExpr <* P.eof
 
 parseExpr :: P.Parser Fmla
 parseExpr =  parseNeg

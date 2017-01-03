@@ -1,9 +1,11 @@
 module Formula ( Fmla(..), negFmla, allProps, allBins ) where
 
+import Data.List (delete)
+
 type BinaryConnector = Char
 
 allProps :: [Char]
-allProps = ['a'..'z']
+allProps = delete 'v' ['a'..'z']
 
 allBins :: [Char]
 allBins = "^>v"
@@ -59,14 +61,14 @@ instance Show Fmla where
 
 
 
-prop :: Char -> Maybe Fmla
-prop xs = if validProp xs then Just (Prop xs) else Nothing
-
-validProp :: Char -> Bool
-validProp x = x `elem` allProps
-
-validBin :: Char -> Bool
-validBin x = x `elem` allBins
+-- prop :: Char -> Maybe Fmla
+-- prop xs = if validProp xs then Just (Prop xs) else Nothing
+--
+-- validProp :: Char -> Bool
+-- validProp x = x `elem` allProps
+--
+-- validBin :: Char -> Bool
+-- validBin x = x `elem` allBins
 
 negFmla :: Fmla -> Fmla
 negFmla fmla = Neg fmla
