@@ -5,9 +5,19 @@ import Axioms
 import Formula
 import FormulaTest
 import Test.QuickCheck
+import Test.QuickCheck
+import Test.QuickCheck.Function
+
+map' :: (a -> b) -> [a] -> [b]
+map' _ [] = []
+map' f (x:xs) = (f x) : (map' f xs)
+
+prop_map :: (Show a, Show b, Eq a, Eq b) => Fun a b -> [a] -> Bool
+prop_map (Fun _ f) xs = (map f xs) == (map' f xs)
 
 proverTests :: IO ()
 proverTests = do
+    quickCheck prop_map
     putStrLn "Running Robins Tests"
     quickCheck prop_robinTests
     putStrLn "Testing with negated Axiom1"

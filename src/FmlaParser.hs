@@ -3,13 +3,12 @@ module FmlaParser ( parseFmla, parseFmla' ) where
 import Formula
 import Control.Monad (liftM)
 import qualified Text.ParserCombinators.Parsec as P
-import qualified Text.Parsec.Token as P (parens)
 import Text.ParserCombinators.Parsec ((<|>))
 
 parseFmla :: String -> Maybe Fmla
 parseFmla str = case P.parse fullExpr "" str of
     Left err -> Nothing
-    Right fm -> Just fm
+    Right fm -> Just fm 
 
 parseFmla' :: String -> Either P.ParseError Fmla
 parseFmla' str = P.parse fullExpr "" str
@@ -42,9 +41,6 @@ parseBinConn = do
 
 parseNeg :: P.Parser Fmla
 parseNeg = Neg <$ P.char '-' <*> parseExpr
-
--- parens :: P.Parser Fmla
--- parens = P.between (P.char '(') (P.char ')')
 
 fullExpr :: P.Parser Fmla
 fullExpr = parseExpr <* P.eof

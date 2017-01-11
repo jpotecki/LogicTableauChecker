@@ -25,4 +25,4 @@ prop_ParserTest2 = foldl (&&) True $ map isNotFmla noFmlas
         Just _  -> False
         Nothing -> True
     noFmlas :: [String]
-    noFmlas = ["p^p", "(p)", "(-p)"]
+    noFmlas = ["p^p", "(p)", "(-p)", "-(p)", "((p))"]
